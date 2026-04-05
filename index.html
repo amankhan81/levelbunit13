@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Journal - Level B Unit 13</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: #7fb5a8;
+            color: #000;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .main-container {
+            width: 95vw;
+            max-width: 1100px;
+            height: 90vh;
+            max-height: 700px;
+            position: relative;
+        }
+        .retro-card {
+            background: white;
+            border: 3px solid black;
+            box-shadow: 6px 6px 0px rgba(0,0,0,1);
+            position: relative;
+        }
+        .btn-start {
+            background: #7fb5a8;
+            border: 3px solid black;
+            border-radius: 999px;
+            box-shadow: 3px 3px 0px black;
+            transition: all 0.1s;
+        }
+        .btn-start:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px black;
+        }
+        .nav-btn {
+            background: #7fb5a8;
+            border: 2px solid black;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.1s;
+            cursor: pointer;
+        }
+        .nav-btn:hover { background: #6da396; }
+        .nav-btn:active { transform: scale(0.95); }
+        .nav-btn.disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
+        
+        .label-small { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 2px; display: block; }
+        
+        .quiz-input {
+            width: 100%;
+            background: #7fb5a8;
+            border: 2px solid black;
+            padding: 8px 12px;
+            border-radius: 8px;
+            outline: none;
+        }
+        .quiz-option {
+            background: white;
+            border: 2px solid black;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease-out;
+            position: relative;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+        }
+        .quiz-option:hover { transform: translateX(5px); }
+        
+        .quiz-option.selected-correct { background: #22c55e !important; color: white !important; }
+        .quiz-option.selected-wrong { background: #ef4444 !important; color: white !important; }
+
+        .cert-title { font-family: 'Playfair Display', serif; color: #003366; }
+
+        .gauge-container { position: relative; width: 110px; height: 110px; }
+        .gauge-svg { width: 100%; height: 100%; }
+        .gauge-bg { fill: #e5e7eb; }
+        .gauge-fill { fill: #f87171; transition: all 1s ease-in-out; }
+        
+        .clickable-link { text-decoration: none; color: inherit; transition: opacity 0.2s; }
+        .clickable-link:hover { opacity: 0.7; text-decoration: underline; }
+
+        @media print {
+            .print\:hidden { display: none !important; }
+            body { background: white; }
+            .main-container { width: 100vw; height: 100vh; max-width: none; max-height: none; }
+            .retro-card { border: none; box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app" class="main-container flex items-center justify-center"></div>
+
+    <script>
+        const words = [
+            { word: "Blurt", meaning: "to say suddenly or without thinking.", pos: "verb", synonym: "Utter, Exclaim, Reveal", antonym: "Keep quiet, Conceal, Silence", example: "She accidentally blurted out the secret before she could stop herself.", q: "If you 'blurt' something, you say it...", options: ["After a long period of careful planning.", "Suddenly and without thinking.", "In a very quiet whisper."], correct: 1, explanation: "Blurting is an impulsive act of speaking without prior thought." },
+            { word: "Countenance", meaning: "a person's face or facial expression.", pos: "noun", synonym: "Face, Features, Expression", antonym: "N/A", example: "His calm countenance reassured the team during the difficult presentation.", q: "Which part of a person refers to their 'countenance'?", options: ["Their style of clothing.", "Their facial expression.", "Their physical strength."], correct: 1, explanation: "Countenance specifically refers to the face or expression on it." },
+            { word: "Enchant", meaning: "to fill someone with great delight; to charm or captivate.", pos: "verb", synonym: "Captivate, Fascinate, Charm", antonym: "Repel, Bore, Disgust", example: "The beautiful melody continued to enchant the audience throughout the night.", q: "A performance that 'enchants' you is...", options: ["Extremely dull and boring.", "Captivating and delightful.", "Scary and threatening."], correct: 1, explanation: "To enchant is to delight or charm someone deeply." },
+            { word: "Foster", meaning: "to encourage or promote the development of something regarded as good.", pos: "verb", synonym: "Nurture, Cultivate, Support", antonym: "Discourage, Suppress, Neglect", example: "The school tries to foster a sense of community among its students.", q: "To 'foster' a skill means to...", options: ["Discourage its use entirely.", "Ignore it and hope it goes away.", "Encourage and help it grow."], correct: 2, explanation: "Fostering involves nurturing and supporting development." },
+            { word: "Handicraft", meaning: "a particular skill of making decorative objects by hand.", pos: "noun", synonym: "Craft, Handiwork, Artisanry", antonym: "Machine-made, Industrial", example: "She sold various beautiful handicrafts at the local artisan market.", q: "Which of the following is a 'handicraft'?", options: ["A plastic chair made in a factory.", "A wooden bowl carved by hand.", "An automated email response."], correct: 1, explanation: "Handicrafts are objects made through skilled manual work." },
+            { word: "Ignite", meaning: "to set on fire; to catch fire.", pos: "verb", synonym: "Kindle, Inflame, Light", antonym: "Extinguish, Quench, Put out", example: "A single spark was enough to ignite the pile of dry leaves.", q: "What happens when you 'ignite' a campfire?", options: ["You put it out with water.", "You set it on fire to start it.", "You cover it with a tent."], correct: 1, explanation: "Igniting means starting a fire or catching fire." },
+            { word: "Massive", meaning: "large and heavy or solid; enormous.", pos: "adjective", synonym: "Enormous, Colossal, Huge", antonym: "Tiny, Slight, Small", example: "The explorers discovered a massive stone statue buried in the jungle.", q: "A 'massive' object is characterized by being...", options: ["Extremely small and fragile.", "Very light and easy to carry.", "Enormous, heavy, and solid."], correct: 2, explanation: "Massive implies great size, weight, and solidity." },
+            { word: "Pall", meaning: "a dark cloud or covering of smoke, dust, or gloom.", pos: "noun", synonym: "Shroud, Gloom, Shadow", antonym: "Light, Brightness, Clarity", example: "A thick pall of smoke hung over the city after the volcanic eruption.", q: "Which scenario describes a 'pall'?", options: ["A bright, sunny day at the beach.", "A dark cloud of dust covering a town.", "A clear night sky with stars."], correct: 1, explanation: "A pall is a covering that creates darkness or gloom." },
+            { word: "Reputable", meaning: "having a good reputation; trustworthy.", pos: "adjective", synonym: "Trustworthy, Respectable, Honest", antonym: "Disreputable, Shady, Unreliable", example: "You should always buy expensive electronics from a reputable dealer.", q: "Why would you choose a 'reputable' company?", options: ["Because they are known for being dishonest.", "Because they have a good, trustworthy reputation.", "Because they have never been heard of before."], correct: 1, explanation: "Reputable companies are trusted and respected for their history." },
+            { word: "Stodgy", meaning: "dull and uninspired; heavy or filling (often referring to food or prose).", pos: "adjective", synonym: "Boring, Tedious, Heavy", antonym: "Exciting, Lively, Interesting", example: "The textbook was filled with stodgy prose that was very difficult to finish.", q: "A 'stodgy' book is likely to be...", options: ["Thrilling and full of action.", "Dull and uninspired.", "Short and easy to read."], correct: 1, explanation: "Stodgy describes things that are heavy, dull, or uninteresting." }
+        ];
+
+        let state = {
+            view: 'start',
+            currentIdx: 0,
+            userName: '',
+            userClass: '',
+            answers: [],
+        };
+
+        const siteURL = "https://www.smartstudygrid.com";
+        const siteText = "www.smartstudygrid.com";
+
+        function playAudio(idx) {
+            const num = String(idx + 1).padStart(2, '0');
+            new Audio(`${num}.mp3`).play().catch(() => console.warn(`Audio ${num}.mp3 not found.`));
+        }
+
+        function render() {
+            const app = document.getElementById('app');
+            app.innerHTML = '';
+
+            if (state.view === 'start') {
+                app.innerHTML = `
+                <div class="retro-card w-full h-full flex flex-col items-center justify-center p-12 text-center">
+                    <h1 class="text-6xl font-black mb-4 tracking-tighter uppercase">Vocabulary</h1>
+                    <h2 class="text-4xl font-bold mb-8 uppercase">Level B Unit 13</h2>
+                    <p class="text-lg font-bold mb-12"><a href="${siteURL}" target="_blank" class="clickable-link">${siteText}</a> <br> Amanullah Khan</p>
+                    <button onclick="state.view = 'vocab'; render();" class="btn-start px-16 py-3 text-xl font-bold uppercase tracking-widest">Start</button>
+                </div>`;
+            } 
+            
+            else if (state.view === 'vocab') {
+                const word = words[state.currentIdx];
+                app.innerHTML = `
+                <div class="w-full h-full flex flex-col p-6 space-y-4">
+                    <div class="flex items-center justify-center gap-6">
+                        <button onclick="changeWord(-1)" class="nav-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg></button>
+                        <div class="retro-card flex-grow max-w-lg h-14 flex items-center justify-between px-6">
+                            <span class="text-2xl font-bold text-blue-800">${String(state.currentIdx + 1).padStart(2, '0')}. ${word.word}</span>
+                            <button onclick="playAudio(${state.currentIdx})" class="hover:scale-110 transition-transform">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+                            </button>
+                        </div>
+                        <button onclick="changeWord(1)" class="nav-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></button>
+                    </div>
+
+                    <div class="retro-card p-4">
+                        <span class="label-small">Meaning:</span>
+                        <p class="text-2xl font-light">${word.meaning}</p>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 h-24">
+                        <div class="retro-card p-3">
+                            <span class="label-small">Part of Speech:</span>
+                            <p class="text-xl text-center font-medium">${word.pos}</p>
+                        </div>
+                        <div class="retro-card p-3">
+                            <span class="label-small text-green-600">Synonym:</span>
+                            <p class="text-sm font-medium leading-tight">${word.synonym}</p>
+                        </div>
+                        <div class="retro-card p-3">
+                            <span class="label-small text-red-600">Antonym:</span>
+                            <p class="text-sm font-medium leading-tight">${word.antonym}</p>
+                        </div>
+                    </div>
+
+                    <div class="retro-card p-4">
+                        <span class="label-small">Example Sentence:</span>
+                        <p class="text-lg">"${word.example.replace(new RegExp(word.word, 'gi'), `<span class="text-blue-700 font-bold">$&</span>`)}"</p>
+                    </div>
+
+                    <div class="flex justify-between items-end px-2 pt-2">
+                        <span class="font-bold text-lg">Amanullah Khan</span>
+                        <span class="font-bold text-lg"><a href="${siteURL}" target="_blank" class="clickable-link">${siteText}</a></span>
+                    </div>
+                </div>`;
+            }
+
+            else if (state.view === 'quiz-start') {
+                app.innerHTML = `
+                <div class="retro-card w-full h-full flex flex-col items-center justify-center p-12 text-center">
+                    <h1 class="text-5xl font-black mb-2 uppercase">Level B Unit 13</h1>
+                    <h2 class="text-3xl font-bold mb-8 italic">Quiz Time</h2>
+                    <div class="w-full max-w-md space-y-6 mb-10">
+                        <div class="text-left">
+                            <span class="label-small mb-1">Full Name:</span>
+                            <input type="text" id="nameInput" class="quiz-input" placeholder="Your Name..." value="${state.userName}">
+                        </div>
+                        <div class="text-left">
+                            <span class="label-small mb-1">Class:</span>
+                            <input type="text" id="classInput" class="quiz-input" placeholder="Your Class..." value="${state.userClass}">
+                        </div>
+                    </div>
+                    <button onclick="startQuiz()" class="btn-start px-16 py-3 text-xl font-bold uppercase tracking-widest">Begin Test</button>
+                </div>`;
+            }
+
+            else if (state.view === 'quiz-q') {
+                const word = words[state.currentIdx];
+                const selected = state.answers[state.currentIdx];
+
+                app.innerHTML = `
+                <div class="w-full h-full flex flex-col p-6">
+                    <div class="mb-4">
+                        <span class="label-small text-slate-500">Question ${state.currentIdx + 1} / ${words.length}</span>
+                        <h3 class="text-2xl font-bold text-blue-900 leading-tight">${word.q}</h3>
+                    </div>
+
+                    <div class="flex-grow space-y-3">
+                        ${word.options.map((opt, i) => {
+                            let statusClass = '';
+                            if (selected === i) {
+                                statusClass = (i === word.correct) ? 'selected-correct' : 'selected-wrong';
+                            }
+                            return `
+                                <div onclick="pickAnswer(${i})" class="quiz-option ${statusClass}">
+                                    <span class="font-bold mr-2">${String.fromCharCode(65 + i)})</span> ${opt}
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+
+                    <div class="mt-4 h-24">
+                        ${selected !== undefined ? `
+                        <div class="p-4 bg-white border-2 border-black rounded shadow animate-in slide-in-from-bottom-2 duration-300">
+                            <p class="font-bold">Result: ${selected === word.correct ? '✅ Correct' : '❌ Incorrect'}</p>
+                            <p class="text-sm italic">${word.explanation}</p>
+                        </div>
+                        ` : '<div class="flex items-center justify-center h-full text-slate-500 italic">Please select an answer to continue...</div>'}
+                    </div>
+
+                    <div class="mt-6 flex items-center justify-between">
+                         <button onclick="changeQuizQ(-1)" class="nav-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg></button>
+                         <button onclick="changeQuizQ(1)" class="nav-btn ${selected === undefined ? 'disabled' : ''}">
+                            ${state.currentIdx === words.length - 1 ? 
+                                '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>' : 
+                                '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>'
+                            }
+                         </button>
+                    </div>
+                </div>`;
+            }
+
+            else if (state.view === 'certificate') {
+                const score = state.answers.filter((a, i) => a === words[i].correct).length;
+                const percent = Math.round((score / words.length) * 100);
+                const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+                app.innerHTML = `
+                <div class="bg-white border-[15px] border-[#003366] w-full h-full flex flex-col p-6 relative overflow-hidden text-[#003366]">
+                    <!-- Header -->
+                    <div class="flex justify-between text-sm font-bold mb-4">
+                        <span>${today}</span>
+                        <span><a href="${siteURL}" target="_blank" class="clickable-link">${siteText}</a></span>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="text-center flex-grow flex flex-col justify-center items-center">
+                        <h1 class="cert-title text-5xl mb-2">Certificate of Completion</h1>
+                        <p class="text-sm font-medium mb-3">This is to certify that</p>
+                        
+                        <div class="flex flex-col items-center mb-4">
+                            <h2 class="cert-title text-5xl mb-2 border-b-2 border-[#003366] px-6 pb-1 min-w-[300px]">
+                                ${state.userName || 'Student Name'}
+                            </h2>
+                            <!-- Ornament SVG -->
+                            <div class="mt-2">
+                                <svg width="200" height="20" viewBox="0 0 240 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 20 C 40 5, 80 5, 110 20 L 130 20 C 160 35, 200 35, 230 20" stroke="#003366" stroke-width="2" fill="none" />
+                                    <circle cx="120" cy="20" r="1.5" fill="#003366"/>
+                                    <circle cx="112" cy="20" r="1.5" fill="#003366"/>
+                                    <circle cx="128" cy="20" r="1.5" fill="#003366"/>
+                                    <circle cx="104" cy="20" r="1.5" fill="#003366"/>
+                                    <circle cx="136" cy="20" r="1.5" fill="#003366"/>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <p class="text-lg font-bold uppercase mb-4 tracking-wider">Level B Unit 13 Quiz Result</p>
+                        
+                        <!-- Score Display -->
+                        <div class="text-6xl font-bold text-green-500 mb-6">
+                            ${score} / ${words.length}
+                        </div>
+
+                        <!-- Gauge -->
+                        <div class="gauge-container mb-4">
+                            <svg class="gauge-svg" viewBox="0 0 100 100">
+                                <circle class="gauge-bg" cx="50" cy="50" r="45" />
+                                <path class="gauge-fill" 
+                                    d="${describeArc(50, 50, 45, 0, (percent / 100) * 360)}" 
+                                    fill="#f87171" />
+                                <circle cx="50" cy="50" r="38" fill="white" />
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-2xl font-black text-slate-700">${percent}%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="flex justify-between items-end mt-2">
+                        <div class="text-lg font-bold">Class: <span class="font-normal">${state.userClass || '---'}</span></div>
+                        <div class="text-right flex flex-col items-end pr-4">
+                            <img src="my signature png.png" alt="Signature" class="h-14 object-contain mb-[-10px]" onerror="this.style.display='none'">
+                            <div class="border-t-2 border-yellow-400 w-48 pt-1 text-center">
+                                <p class="text-lg font-bold leading-tight">Amanullah Khan</p>
+                                <p class="text-xs font-medium uppercase tracking-widest text-slate-500">Teacher</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 print:hidden">
+                        <button onclick="window.print()" class="bg-[#003366] text-white px-8 py-2 rounded-full font-bold shadow-lg hover:bg-slate-800 transition-all">Print Certificate</button>
+                    </div>
+                </div>`;
+            }
+        }
+
+        function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+            const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+            return {
+                x: centerX + (radius * Math.cos(angleInRadians)),
+                y: centerY + (radius * Math.sin(angleInRadians))
+            };
+        }
+
+        function describeArc(x, y, radius, startAngle, endAngle) {
+            if (endAngle >= 360) endAngle = 359.99;
+            const start = polarToCartesian(x, y, radius, endAngle);
+            const end = polarToCartesian(x, y, radius, startAngle);
+            const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+            return [
+                "M", start.x, start.y, 
+                "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y,
+                "L", x, y,
+                "Z"
+            ].join(" ");
+        }
+
+        function changeWord(dir) {
+            let next = state.currentIdx + dir;
+            if (next >= words.length) {
+                state.view = 'quiz-start';
+                state.currentIdx = 0;
+            } else if (next >= 0) {
+                state.currentIdx = next;
+            } else {
+                state.view = 'start';
+            }
+            render();
+        }
+
+        function startQuiz() {
+            state.userName = document.getElementById('nameInput').value || '';
+            state.userClass = document.getElementById('classInput').value || '';
+            state.view = 'quiz-q';
+            state.currentIdx = 0;
+            state.answers = [];
+            render();
+        }
+
+        function pickAnswer(idx) {
+            state.answers[state.currentIdx] = idx;
+            render();
+        }
+
+        function changeQuizQ(dir) {
+            if (dir > 0 && state.answers[state.currentIdx] === undefined) return;
+
+            let next = state.currentIdx + dir;
+            if (next >= words.length) {
+                state.view = 'certificate';
+            } else if (next >= 0) {
+                state.currentIdx = next;
+            } else {
+                state.view = 'quiz-start';
+            }
+            render();
+        }
+
+        window.onload = render;
+    </script>
+</body>
+</html>
