@@ -277,38 +277,33 @@
                 const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
                 app.innerHTML = `
-                <div class="bg-white border-[15px] border-[#003366] w-full h-full flex flex-col p-6 relative overflow-hidden text-[#003366]">
+                <div class="bg-white border-[15px] border-[#003366] w-full h-full flex flex-col p-8 relative overflow-hidden text-[#003366]">
+                    <!-- Header -->
                     <div class="flex justify-between text-sm font-bold mb-4">
                         <span>${today}</span>
                         <span><a href="${siteURL}" target="_blank" class="clickable-link">${siteText}</a></span>
                     </div>
 
+                    <!-- Content -->
                     <div class="text-center flex-grow flex flex-col justify-center items-center">
-                        <h1 class="cert-title text-5xl mb-2">Certificate of Completion</h1>
-                        <p class="text-sm font-medium mb-3">This is to certify that</p>
+                        <h1 class="cert-title text-5xl mb-1">Certificate of Completion</h1>
+                        <p class="text-sm font-medium mb-2">This is to certify that</p>
                         
-                        <div class="flex flex-col items-center mb-4">
-                            <h2 class="cert-title text-5xl mb-2 border-b-2 border-[#003366] px-6 pb-1 min-w-[300px]">
+                        <div class="flex flex-col items-center mb-2">
+                            <h2 class="cert-title text-5xl mb-1 border-b-2 border-[#003366] px-12 pb-1 inline-block">
                                 ${state.userName || 'Student Name'}
                             </h2>
-                            <div class="mt-2">
-                                <svg width="200" height="20" viewBox="0 0 240 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 20 C 40 5, 80 5, 110 20 L 130 20 C 160 35, 200 35, 230 20" stroke="#003366" stroke-width="2" fill="none" />
-                                    <circle cx="120" cy="20" r="1.5" fill="#003366"/>
-                                    <circle cx="112" cy="20" r="1.5" fill="#003366"/>
-                                    <circle cx="128" cy="20" r="1.5" fill="#003366"/>
-                                    <circle cx="104" cy="20" r="1.5" fill="#003366"/>
-                                    <circle cx="136" cy="20" r="1.5" fill="#003366"/>
-                                </svg>
-                            </div>
+                            <p class="text-base font-medium mt-2">has successfully completed the following:</p>
                         </div>
                         
-                        <p class="text-lg font-bold uppercase mb-4 tracking-wider">Level B Unit 13 Quiz Result</p>
+                        <p class="text-lg font-bold uppercase mb-4 tracking-wider">Level B Unit 13 Vocabulary Quiz</p>
                         
-                        <div class="text-6xl font-bold text-green-500 mb-6">
+                        <!-- Score Display -->
+                        <div class="text-5xl font-bold text-green-500 mb-4">
                             ${score} / ${words.length}
                         </div>
 
+                        <!-- Gauge -->
                         <div class="gauge-container mb-4">
                             <svg class="gauge-svg" viewBox="0 0 100 100">
                                 <circle class="gauge-bg" cx="50" cy="50" r="45" />
@@ -323,10 +318,11 @@
                         </div>
                     </div>
 
-                    <div class="flex justify-between items-end mt-2">
+                    <!-- Footer raised higher from bottom -->
+                    <div class="flex justify-between items-end mb-10 mt-2 px-4">
                         <div class="text-lg font-bold">Class: <span class="font-normal">${state.userClass || '---'}</span></div>
-                        <div class="text-right flex flex-col items-end pr-4">
-                            <img src="my signature png.png" alt="Signature" class="h-14 object-contain mb-[-10px]" onerror="this.style.display='none'">
+                        <div class="text-right flex flex-col items-end">
+                            <img src="my signature png.png" alt="Signature" class="h-20 object-contain mb-[-12px] pr-4" onerror="this.style.display='none'">
                             <div class="border-t-2 border-yellow-400 w-48 pt-1 text-center">
                                 <p class="text-lg font-bold leading-tight">Amanullah Khan</p>
                                 <p class="text-xs font-medium uppercase tracking-widest text-slate-500">Teacher</p>
@@ -334,6 +330,7 @@
                         </div>
                     </div>
 
+                    <!-- Print Controls -->
                     <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 print:hidden">
                         <button onclick="window.print()" class="bg-[#003366] text-white px-8 py-2 rounded-full font-bold shadow-lg hover:bg-slate-800 transition-all">Print Certificate</button>
                     </div>
